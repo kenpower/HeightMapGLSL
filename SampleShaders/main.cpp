@@ -26,8 +26,10 @@
 #include <iostream>
 #include <sstream> 
   
+
+#include "gridMesh.h"
   
-#include "torus.h"
+//#include "torus.h"
 #define X 0.52573111f
 #define Z 0.85065080f
  
@@ -70,10 +72,10 @@ int main()
 	}
 
     int curShader=0;
-	const int NumShaders=5;
+	const int NumShaders=6;
 	sf::Shader shaders[NumShaders];
-	std::string vertexShaders[NumShaders]={	"minimal_vert.glsl","flatten_vert.glsl","multicolor_vert.glsl",	"modelcolor_vert.glsl",	"texture_vert.glsl"};
-	std::string fragShaders[NumShaders]={	"minimal_frag.glsl","minimal_frag.glsl","color_frag.glsl",		"color_frag.glsl",		"texture_frag.glsl"};
+	std::string vertexShaders[NumShaders]={	"minimal_vert.glsl","flatten_vert.glsl","multicolor_vert.glsl",	"modelcolor_vert.glsl",	"texture_vert.glsl",	"heightMap_vert.glsl"};
+	std::string fragShaders[NumShaders]={	"minimal_frag.glsl","minimal_frag.glsl","color_frag.glsl",		"color_frag.glsl",		"texture_frag.glsl",	"heightMap_frag.glsl"};
 	std::string shaderDir="..\\SampleShaders\\";
 	
 	for(int i=0;i<NumShaders;i++){
@@ -83,7 +85,9 @@ int main()
 	}	
 
 
-	shaders[4].setParameter("tex",  senna_img); //set texture of 4th shader
+	//shaders[4].setParameter("tex",  senna_img); //set texture of 4th shader
+	//shaders[5].setParameter("tex",  senna_img); //set texture of 4th shader
+	shaders[5].setParameter("heightMap",  senna_img); //set texture of 4th shader
 	
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -100,9 +104,9 @@ int main()
     glDepthMask(GL_TRUE); 
   
 	enum drawModes{wireframe,outline,DRAWEND} drawMode=wireframe;
-	enum Models{cube,icosagon,torus,MODELSEND} model=cube;
+	enum Models{cube,icosagon,grid,MODELSEND} model=cube;
 
-	createTorus();
+	int numGridPoints=createGrid();
 
     //// Setup a perspective projection & Camera position 
     glMatrixMode(GL_PROJECTION); 
@@ -164,7 +168,8 @@ int main()
 		
 		double angle=Clock.getElapsedTime().asMilliseconds();
 		glTranslated(0,0,-5); //shift to original position
-		glRotated(angle/10, 1, 1, 1); // rotate
+		//glRotated(angle/10, 1, 1, 1); // rotate
+		glRotated(30.f, 1, 1, 1); // rotate
 		
 		
 		switch(drawMode){
@@ -173,11 +178,14 @@ int main()
 			break;
 		
 		case outline:
+		default:
 			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 			break;
   
 		}
+
 		switch(model){
+		 default:
 		case cube:
 			glBegin(GL_QUADS);//draw some squares
 			glColor3d(0,1,1);
@@ -223,17 +231,25 @@ int main()
 			glVertexPointer(3,GL_FLOAT,0,(GLvoid*)icosVertices);// give openGL our array of vertices
 			glDrawElements(GL_TRIANGLES, 20*3, GL_UNSIGNED_INT,icosTriangles);
 			break;
-		case torus://draw torus
-			// we want to use a vertex array
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glVertexPointer(3,GL_FLOAT,0,(GLvoid*)torusVertices);
+		case grid://draw grid
+			//// we want to use a vertex array
+			//glEnableClientState(GL_VERTEX_ARRAY);
+			//glVertexPointer(3,GL_FLOAT,0,(GLvoid*)gridVertices);
  
-			//we want to use a normal array
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glNormalPointer(GL_FLOAT,0,(GLvoid*)torusNormals);
+			////we want to use a normal array
+			//glEnableClientState(GL_NORMAL_ARRAY);
+			//glNormalPointer(GL_FLOAT,0,(GLvoid*)torusNormals);
 
-			glDrawElements(GL_QUADS, torusNumQuads, GL_UNSIGNED_INT,torusQuads);
- 
+			//glDrawElements(GL_POINTS, numGridPoints, GL_UNSIGNED_INT,gridVertices);
+			GLfloat* verts=(GLfloat*)gridVertices;
+			GLfloat* text=(GLfloat*)gridTexCoords;
+			glBegin(GL_POINTS);
+			for(int i=0;i<numGridPoints;i++){
+					glTexCoord2fv(text+i*2);
+					glVertex3fv(verts+i*3);
+			}
+			glEnd();
+
 			
 			break;
 		}

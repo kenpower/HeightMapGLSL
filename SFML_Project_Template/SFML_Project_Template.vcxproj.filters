@@ -44,6 +44,9 @@
     <None Include="..\SampleShaders\texture_vert.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\SampleShaders\heightMap_frag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -52,7 +55,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SampleShaders\torus.h">
+    <ClInclude Include="..\SampleShaders\gridMesh.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

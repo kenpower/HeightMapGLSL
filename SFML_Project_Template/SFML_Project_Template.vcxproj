@@ -79,6 +79,7 @@
   <ItemGroup>
     <None Include="..\SampleShaders\color_frag.glsl" />
     <None Include="..\SampleShaders\flatten_vert.glsl" />
+    <None Include="..\SampleShaders\heightMap_frag.glsl" />
     <None Include="..\SampleShaders\minimal_frag.glsl" />
     <None Include="..\SampleShaders\minimal_vert.glsl" />
     <None Include="..\SampleShaders\modelcolor_vert.glsl" />
@@ -88,7 +89,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SampleShaders\torus.h" />
+    <ClInclude Include="..\SampleShaders\gridMesh.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
