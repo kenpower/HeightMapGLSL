@@ -47,6 +47,9 @@
     <None Include="..\SampleShaders\heightMap_frag.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\SampleShaders\heightMap_vert.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

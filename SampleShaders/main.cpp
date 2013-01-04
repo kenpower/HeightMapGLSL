@@ -17,10 +17,10 @@
 #endif 
 #pragma comment(lib,"opengl32.lib") 
 #pragma comment(lib,"glu32.lib") 
-#pragma comment(lib,"glew32.lib") 
+//#pragma comment(lib,"glew32.lib") 
 
   
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include "SFML/Graphics.hpp" 
 #include "SFML/OpenGL.hpp" 
 #include <iostream>
@@ -70,6 +70,24 @@ int main()
 		std::cout << "Could not load " << senna_file.getData();
 
 	}
+	
+	//load texture image
+	sf::Texture heightMap;
+	sf::String height_file="../HeightMap.png";
+	if (!heightMap.loadFromFile(height_file))
+	{
+		std::cout << "Could not load " << height_file.getData();
+
+	}
+	
+	//load texture image
+	sf::Texture mapsurface;
+	sf::String surface_file="../IslandTexture.png";
+	if (!mapsurface.loadFromFile(surface_file))
+	{
+		std::cout << "Could not load " << surface_file.getData();
+
+	}
 
     int curShader=0;
 	const int NumShaders=6;
@@ -85,18 +103,18 @@ int main()
 	}	
 
 
-	//shaders[4].setParameter("tex",  senna_img); //set texture of 4th shader
-	//shaders[5].setParameter("tex",  senna_img); //set texture of 4th shader
-	shaders[5].setParameter("heightMap",  senna_img); //set texture of 4th shader
+	shaders[4].setParameter("tex",  senna_img); //set texture of 4th shader
+	shaders[5].setParameter("mapsurface",  mapsurface); //set texture of 5th shader
+	shaders[5].setParameter("heightMap",  heightMap); //set texture of 5th shader
 	
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
-	{
-		/* Problem: glewInit failed, something is seriously wrong. */
-		std::cout << "Error:\n" << glewGetErrorString(err);
- 
+	//GLenum err = glewInit();
+	//if (GLEW_OK != err)
+	//{
+	//	/* Problem: glewInit failed, something is seriously wrong. */
+	//	std::cout << "Error:\n" << glewGetErrorString(err);
+ //
 
-	}
+	//}
     //prepare OpenGL surface for HSR 
     glClearDepth(1.f); 
     glClearColor(0.3f, 0.3f, 0.3f, 0.f); //background colour
@@ -168,8 +186,8 @@ int main()
 		
 		double angle=Clock.getElapsedTime().asMilliseconds();
 		glTranslated(0,0,-5); //shift to original position
-		//glRotated(angle/10, 1, 1, 1); // rotate
-		glRotated(30.f, 1, 1, 1); // rotate
+		glRotated(angle/10, 1, 1, 1); // rotate
+		//glRotated(30.f, 1, 1, 1); // rotate
 		
 		
 		switch(drawMode){
