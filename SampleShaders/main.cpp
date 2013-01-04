@@ -259,15 +259,20 @@ int main()
 			//glNormalPointer(GL_FLOAT,0,(GLvoid*)torusNormals);
 
 			//glDrawElements(GL_POINTS, numGridPoints, GL_UNSIGNED_INT,gridVertices);
-			GLfloat* verts=(GLfloat*)gridVertices;
+			/*GLfloat* verts=(GLfloat*)gridVertices;
 			GLfloat* text=(GLfloat*)gridTexCoords;
 			glBegin(GL_POINTS);
 			for(int i=0;i<numGridPoints;i++){
 					glTexCoord2fv(text+i*2);
 					glVertex3fv(verts+i*3);
 			}
-			glEnd();
-
+			glEnd();*/
+			GLfloat* verts=(GLfloat*)gridVertices;
+			glEnableClientState(GL_VERTEX_ARRAY); // we want to use vertex arrays for coordinate info
+			glVertexPointer(3,GL_FLOAT,0,(GLvoid*)verts);// give openGL our array of vertices
+			GLint* tris=(GLint*)gridTriangles;
+			glDrawElements(GL_TRIANGLES, numGridTriangles*3, GL_UNSIGNED_INT,tris);
+			break;
 			
 			break;
 		}

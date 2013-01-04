@@ -10,7 +10,7 @@ GLint gridNumQuads=U_STEPS*V_STEPS*4;
 GLfloat gridVertices[U_STEPS][V_STEPS][3];
 GLfloat gridTexCoords[U_STEPS][V_STEPS][2];
 GLuint gridTriangles[(U_STEPS-1)*(V_STEPS-1)*2][3];
-//GLfloat gridPoints[U_STEPS*V_STEPS*3];
+int numGridTriangles;
 
 
 int createGrid(){
@@ -26,6 +26,7 @@ int createGrid(){
 	float scale=3.0f/U_STEPS;
 	float origin=-U_STEPS/2.0f;
  
+	int t=0;
     for(int u=0; u< U_STEPS;u++){
         for(int v=0; v< V_STEPS;v++){
             
@@ -45,21 +46,29 @@ int createGrid(){
             torusNormals[U][V][1]=torusVertices[U][V][1]-0;
             torusNormals[U][V][2]=torusVertices[U][V][2]-(GLfloat)(R*sin(v));
         */ 
-           /*  
-            // create a mesh, the quads array contains indices to the vertices array
-            // each group of 4 indices specifies a quad.
-            V1=(V+1)%V_STEPS;
-            U1=(U+1)%U_STEPS;
- 
-            torusQuads[t][0]=V + U*V_STEPS;
-            torusQuads[t][3]=V1 + U*V_STEPS;
-            torusQuads[t][2]=V1 + U1*V_STEPS;
-            torusQuads[t][1]=V + U1*V_STEPS;
              
-            t++;
-             */
+            // create a mesh, the quads array contains indices to the vertices array
+            //// each group of 3 for each t
+            int V1=(v+1)%V_STEPS;
+            int U1=(u+1)%U_STEPS;
+ 
+			if((V1!=0 && U1!=0)){
+				gridTriangles[t][0]=v + u*V_STEPS;
+				gridTriangles[t][1]=V1 + u*V_STEPS;
+				gridTriangles[t][2]=V1 + U1*V_STEPS;
+				t++;
+				gridTriangles[t][0]=V1 + U1*V_STEPS;
+				gridTriangles[t][1]=v + u*V_STEPS;
+				gridTriangles[t][2]=v + U1*V_STEPS;
+				t++;
+				}
+             
+            
+            
         }
     }
+
+	numGridTriangles=t;
 	return U_STEPS*V_STEPS;
 
 }
