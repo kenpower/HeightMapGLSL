@@ -17,8 +17,8 @@ void main()
 		
 	}
    
-    float g=f*f;
-    pos.y=g;
+ 
+    pos.y=f;
 
 	gl_FrontColor=gl_Color;
 
