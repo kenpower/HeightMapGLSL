@@ -98,12 +98,12 @@ int main()
 	
 	for(int i=0;i<NumShaders;i++){
 		if(!shaders[i].loadFromFile(shaderDir+vertexShaders[i],shaderDir+fragShaders[i])){
-		  std::cout << "Error:\n" << "loading shaders" << vertexShaders[i] << " " <<fragShaders[i] ;
+		  std::cout << "\nError:\n" << "loading shaders " << vertexShaders[i] << " & " <<fragShaders[i] ;
 		};
 	}	
 
 
-	shaders[4].setParameter("tex",  senna_img); //set texture of 4th shader
+	shaders[4].setParameter("texture",  senna_img); //set texture of 4th shader
 	shaders[5].setParameter("mapsurface",  mapsurface); //set texture of 5th shader
 	shaders[5].setParameter("heightMap",  heightMap); //set texture of 5th shader
 	
@@ -268,8 +268,11 @@ int main()
 			}
 			glEnd();*/
 			GLfloat* verts=(GLfloat*)gridVertices;
+			GLfloat* text=(GLfloat*)gridTexCoords;
 			glEnableClientState(GL_VERTEX_ARRAY); // we want to use vertex arrays for coordinate info
 			glVertexPointer(3,GL_FLOAT,0,(GLvoid*)verts);// give openGL our array of vertices
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY); // we want to use vertex arrays for coordinate info
+			glTexCoordPointer(2,GL_FLOAT,0,(GLvoid*)text);
 			GLint* tris=(GLint*)gridTriangles;
 			glDrawElements(GL_TRIANGLES, numGridTriangles*3, GL_UNSIGNED_INT,tris);
 			break;

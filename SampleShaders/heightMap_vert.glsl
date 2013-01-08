@@ -7,17 +7,13 @@ void main()
 {
 	vec4 pos=gl_Vertex;
 
-	float f;
-
+	
 	if(gl_MaxVertexTextureImageUnits>0){
 		vec4 h=texture2D(heightMap,gl_MultiTexCoord0.st);
 
-		f=h.r;
+		pos.y=h.r;
 	
 	}
-   
- 
-    pos.y=f;
 
 	gl_FrontColor=vec4(1);
 
