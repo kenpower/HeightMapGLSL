@@ -137,6 +137,8 @@ int main()
 
 	glOrtho(-2,2,-2,2,0,10); 
 
+	bool wasSpressed=false;
+	bool shaderOn=true;
 
 	while (App.isOpen()) 
     { 
@@ -155,6 +157,7 @@ int main()
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Space)){
 				curShader++;
 				curShader%=NumShaders;
+				shaders[curShader].bind();
 			}
 						
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::W)){
@@ -167,6 +170,17 @@ int main()
 				if(model==MODELSEND)
 					model=(Models)0;
 			}
+
+
+			bool sPressed=false;
+
+			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::S)){
+				sPressed=true;
+				if(!wasSpressed)
+					shaderOn=!shaderOn;
+			}
+
+			wasSpressed=sPressed;
   
             
         } 
@@ -176,10 +190,16 @@ int main()
 		}
         //Prepare for drawing 
 
-		shaders[curShader].bind();
+		
         // Clear color and depth buffer 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
   
+		if(shaderOn==true){
+			shaders[curShader].bind();
+		}
+		else{
+			shaders[curShader].unbind();
+		}
         // Apply some transformations 
         glMatrixMode(GL_MODELVIEW); 
         glLoadIdentity(); 
