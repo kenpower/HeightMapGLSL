@@ -48,7 +48,7 @@ GLuint icosTriangles[][3]={ {1,4,0}, {4,9,0},   {4,5,9},   {8,5,4},   {1,8,4},{1
 int main() 
 { 
     // Create the main window 
-    sf::RenderWindow App(sf::VideoMode(800, 600, 32), "SFML OpenGL"); 
+    sf::RenderWindow App(sf::VideoMode(1200, 800, 32), "SFML OpenGL"); 
   
 	// Create a clock for measuring time elapsed     
 	sf::Clock Clock; 
@@ -62,15 +62,7 @@ int main()
 		std::cout << "Error loading font\n" ;
 	}
 
-	//load texture image
-	sf::Texture senna_img;
-	sf::String senna_file="../lotus1986.png";
-	if (!senna_img.loadFromFile(senna_file))
-	{
-		std::cout << "Could not load " << senna_file.getData();
 
-	}
-	
 	//load texture image
 	sf::Texture heightMap;
 	sf::String height_file="../HeightMap.png";
@@ -81,19 +73,34 @@ int main()
 	}
 	
 	//load texture image
-	sf::Texture mapsurface;
-	sf::String surface_file="../IslandTexture.png";
-	if (!mapsurface.loadFromFile(surface_file))
+	sf::Texture snowTex;
+	if (!snowTex.loadFromFile("../snow.jpg"))
 	{
-		std::cout << "Could not load " << surface_file.getData();
+		std::cout << "Could not load snow.jpg";
+
+	}
+
+	//load texture image
+	sf::Texture grassTex;
+	if (!grassTex.loadFromFile("../grass.jpg"))
+	{
+		std::cout << "Could not load grass.jpg";
+
+	}
+	
+	//load texture image
+	sf::Texture waterTex;
+	if (!waterTex.loadFromFile("../water.jpg"))
+	{
+		std::cout << "Could not load water.jpg";
 
 	}
 
     int curShader=0;
-	const int NumShaders=6;
+	const int NumShaders=1;
 	sf::Shader shaders[NumShaders];
-	std::string vertexShaders[NumShaders]={	"minimal_vert.glsl","flatten_vert.glsl","multicolor_vert.glsl",	"modelcolor_vert.glsl",	"texture_vert.glsl",	"heightMap_vert.glsl"};
-	std::string fragShaders[NumShaders]={	"minimal_frag.glsl","minimal_frag.glsl","color_frag.glsl",		"color_frag.glsl",		"texture_frag.glsl",	"heightMap_frag.glsl"};
+	std::string vertexShaders[NumShaders]={		"heightMap_vert.glsl"};
+	std::string fragShaders[NumShaders]={		"heightMap_frag.glsl"};
 	std::string shaderDir="..\\SampleShaders\\";
 	
 	for(int i=0;i<NumShaders;i++){
@@ -103,10 +110,11 @@ int main()
 	}	
 
 
-	shaders[4].setParameter("texture",  senna_img); //set texture of 4th shader
-	shaders[5].setParameter("mapsurface",  mapsurface); //set texture of 5th shader
-	shaders[5].setParameter("heightMap",  heightMap); //set texture of 5th shader
 	
+	shaders[0].setParameter("snowTex",  snowTex); //set texture of 5th shader
+	shaders[0].setParameter("heightMap",  heightMap); //set texture of 5th shader
+	shaders[0].setParameter("grassTex",  grassTex); //set texture of 5th shader
+	shaders[0].setParameter("waterTex",  waterTex); //set texture of 5th shader
 	//GLenum err = glewInit();
 	//if (GLEW_OK != err)
 	//{
@@ -131,11 +139,11 @@ int main()
     glLoadIdentity(); 
     
 	//set up a 3D Perspective View volume
-	//gluPerspective(90.f, 1.f, 1.f, 300.0f);//fov, aspect, zNear, zFar 
+	gluPerspective(30.f, 1.f, 1.f, 300.0f);//fov, aspect, zNear, zFar 
 
 	//set up a  orthographic projection 4 uints high/wide centred on origin
 
-	glOrtho(-2,2,-2,2,0,10); 
+	//glOrtho(-2,2,-2,2,0,10); 
 
 	bool wasSpressed=false;
 	bool shaderOn=true;
@@ -154,11 +162,7 @@ int main()
             if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape)) 
                 App.close(); 
             
-			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Space)){
-				curShader++;
-				curShader%=NumShaders;
-				shaders[curShader].bind();
-			}
+
 						
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::W)){
 				drawMode=(drawModes)(drawMode+1);
@@ -205,9 +209,9 @@ int main()
         glLoadIdentity(); 
 		
 		double angle=Clock.getElapsedTime().asMilliseconds();
-		glTranslated(0,0,-5); //shift to original position
+		gluLookAt(0,0.5,-8,  0,0.5,0,  0,1,0);
 		glRotated(angle/10, 1, 1, 1); // rotate
-		//glRotated(30.f, 1, 1, 1); // rotate
+		glRotated(30.f, 1, 1, 1); // rotate
 		
 		
 		switch(drawMode){
