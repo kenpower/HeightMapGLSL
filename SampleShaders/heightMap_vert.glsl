@@ -17,19 +17,21 @@ void main()
 
 		pos.y=h.r;
 		
-		//water
-		if(h.r <=0.05) waterBlend=1.0;
-		else waterBlend=clamp(1-(h.r-0.05)/0.1,0.0,1.0);
+
 		
 		//Grass
-		if(h.r<0.1) grassBlend=clamp(1-waterBlend,0.0,1.0);
+		waterBlend=0.0;
+		snowBlend=0.0;
+		if(h.r<0.1) grassBlend=clamp((h.r-0.05)/0.1,0.0,1.0);
 		if(h.r>=0.1 && h.r<0.6) grassBlend=1.0;
 		if(h.r>=0.6){ grassBlend=clamp((1.0-(h.r-0.6)/0.15),0.0,1.0);}
-	
+			
+		//water
+		if(h.r <=0.1) waterBlend=1.0-grassBlend;
+		
 		//Snow
 		if(h.r>=0.6)
 			snowBlend=1-grassBlend;
-		else snowBlend=0.0;
 	
 
 	
