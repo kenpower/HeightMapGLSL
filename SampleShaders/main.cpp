@@ -129,8 +129,8 @@ int main()
     glEnable(GL_DEPTH_TEST); 
     glDepthMask(GL_TRUE); 
   
-	enum drawModes{wireframe,outline,DRAWEND} drawMode=wireframe;
-	enum Models{cube,icosagon,grid,MODELSEND} model=cube;
+	enum drawModes{wireframe,outline,DRAWEND} drawMode=outline;
+	enum Models{cube,icosagon,grid,MODELSEND} model=grid;
 
 	int numGridPoints=createGrid();
 
@@ -209,9 +209,9 @@ int main()
         glLoadIdentity(); 
 		
 		double angle=Clock.getElapsedTime().asMilliseconds();
-		gluLookAt(0,0.5,-8,  0,0.5,0,  0,1,0);
-		glRotated(angle/10, 1, 1, 1); // rotate
-		glRotated(30.f, 1, 1, 1); // rotate
+		gluLookAt(0,2.5,-5,  0,0.5,0,  0,1,0);
+		//glRotated(angle/10, 1, 1, 1); // rotate
+		//glRotated(30.f, 1, 1, 1); // rotate
 		
 		
 		switch(drawMode){

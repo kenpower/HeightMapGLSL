@@ -2,8 +2,8 @@
 #include "SFML/OpenGL.hpp" 
 #include <cmath>
 
-#define U_STEPS 50 // resolution of the mesh
-#define V_STEPS 50  // resolution of the mesh
+#define U_STEPS 500 // resolution of the mesh
+#define V_STEPS 500  // resolution of the mesh
 
 
 GLint gridNumQuads=U_STEPS*V_STEPS*4;
