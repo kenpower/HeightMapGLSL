@@ -2,8 +2,8 @@
 #include "SFML/OpenGL.hpp" 
 #include <cmath>
 
-#define U_STEPS 500 // resolution of the mesh
-#define V_STEPS 500  // resolution of the mesh
+#define U_STEPS 50 // resolution of the mesh
+#define V_STEPS 50  // resolution of the mesh
 
 
 GLint gridNumQuads=U_STEPS*V_STEPS*4;
@@ -31,7 +31,7 @@ int createGrid(){
         for(int v=0; v< V_STEPS;v++){
             
  
-            // compute vertices of a torus
+           
             gridVertices[u][v][0]=(u+origin)*scale;
             gridVertices[u][v][1]=0;
             gridVertices[u][v][2]=(v+origin)*scale;

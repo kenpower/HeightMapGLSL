@@ -8,6 +8,8 @@ varying float waterBlend;
 varying float grassBlend;
 varying float snowBlend;
 
+
+
 void main()
 {
 
@@ -15,5 +17,5 @@ void main()
 			texture2D(snowTex,gl_TexCoord[0].st)*snowBlend+
 			texture2D(waterTex,gl_TexCoord[0].st)*waterBlend;
 
-	gl_FragColor=c;
+	gl_FragColor=c*gl_Color;
 }
