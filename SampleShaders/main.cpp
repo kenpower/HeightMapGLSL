@@ -217,10 +217,10 @@ int main()
 		double angle=Clock.getElapsedTime().asMilliseconds();
 		gluLookAt(0,2.5,-5,  0,0.5,0,  0,1,0);
 
-		GLfloat light_position[]={0.0, 20.0, 0.0, 1.0};
+		GLfloat light_position[]={0.0, 2.0, 0.0, 1.0};
  
 		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-		//glRotated(angle/10, 1, 1, 1); // rotate
+		glRotated(angle/100, 0, 1, 0); // rotate
 		//glRotated(30.f, 1, 1, 1); // rotate
 		
 		

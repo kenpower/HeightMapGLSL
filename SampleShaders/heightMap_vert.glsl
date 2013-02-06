@@ -29,22 +29,26 @@ void main()
 	vec2 tb=gl_MultiTexCoord0.st;
 
 
+
+	ta.s+=texWidth;
+    
 	a.x+=gridWidth;
-	ta.t+=texWidth;
 	a.y=texture2D(heightMap,ta).r;
 	
+	tb.t+=texWidth;
+
     b.z+=gridWidth;
-	tb.s+=texWidth;
 	b.y=texture2D(heightMap,tb).r;
 
 	vec3 normal=cross(vec3(b-pos),vec3(a-pos));
+	//normal=-normal;
 
-	normal=normalize(gl_NormalMatrix*normal);
+	normal=normalize(normal);
 	
-	vec3 light=vec3(normalize(gl_LightSource[0].position-pos));
+	vec3 light=vec3(normalize(vec3(0,2,0)-(gl_ModelViewMatrix*pos).xyz));
 
 	float l=dot(normal,light);
-
+	
 	gl_FrontColor=vec4(l,l,l,1);
 
 	waterBlend=0.0;
