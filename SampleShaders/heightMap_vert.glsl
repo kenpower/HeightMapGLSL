@@ -47,7 +47,7 @@ void main()
 	
 	vec3 light=vec3(normalize(vec3(0,2,0)-(gl_ModelViewMatrix*pos).xyz));
 
-	float l=dot(normal,light);
+	float l=dot(normal,light)+0.1;
 	
 	gl_FrontColor=vec4(l,l,l,1);
 

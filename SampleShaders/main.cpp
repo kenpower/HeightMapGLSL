@@ -60,15 +60,16 @@ int main()
 		//find this file in the "pong" example in the SFML examples folder
 	{
 		std::cout << "Error loading font\n" ;
+		exit(1);
 	}
 
 
 	//load texture image
 	sf::Texture heightMap;
-	sf::String height_file="../HeightMap.png";
-	if (!heightMap.loadFromFile(height_file))
+	//sf::String height_file=;
+	if (!heightMap.loadFromFile("../HeightMap.png"))
 	{
-		std::cout << "Could not load " << height_file.getData();
+		std::cout << "Could not load ";// << height_file.getData();
 
 	}
 	
@@ -205,10 +206,10 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
   
 		if(shaderOn==true){
-			shaders[curShader].bind();
+			sf::Shader::bind(&shaders[curShader]);
 		}
 		else{
-			shaders[curShader].unbind();
+			sf::Shader::bind(NULL);
 		}
         // Apply some transformations 
         glMatrixMode(GL_MODELVIEW); 
@@ -317,7 +318,7 @@ int main()
   
 
 		//Display info
-	    shaders[curShader].unbind();
+	    sf::Shader::bind(NULL);
 		App.pushGLStates();
 		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 		//set up text properties
